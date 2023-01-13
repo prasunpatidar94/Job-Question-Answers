@@ -1,0 +1,433 @@
+1.  Comparator  vs Comparable 
+A.  both are the interface whic is user to to storing the elemet in collection
+    a. Comparable => it is the interface which mainly used for the customize sorting  of element 
+                For Ex: Emp sotring beased on the Emp the salary etc
+         rules:
+            a. need to be impliment the Comparable interface in which call we need to short.
+            b. it is used for customize sorting based on the any field of object 
+            c. it has compareTo(T t) method which compare the data restun the integer value.
+            d. if  
+                1st < 2nd => -ve
+                1st > 2nd => +ve
+                1st == 2nd => 0
+    
+    b. Comparator => it is the functional interface which can be use to stort element based on the natural sorting order.
+            Rules:
+                a. is has compare() to compate the element 
+                b. not support the customer sorting order 
+
+
+        Comparable                          -                   Comparator
+
+    1. need to be to impliment Comparable   - no need to impliment with model class we can 
+    interface                                 provide it to explicitly 
+    
+    2. use for the natural sorting orader   - we can use for the customize sotring orader
+
+    3. present in java.lang package         - present in java.utill package
+
+    4. use obj1.compareTo(obj2)             - use compare(obj1,obj2)
+
+    6. return int value                     - return int value 
+
+    7. need to chage the code in model      - no need to chage the model or entity class code 
+        class code                              we can put Comparator code any where 
+
+----------------------------------------------------------------------------------------------
+2. Hibernet architacture :
+A. 
+                                                                                                               [.beginTransection()]                     
+        mapping information                                                                                    Transection
+            |                                                                                                  |
+            |addAnotation()                                                                                    | 
+            |                                                                                                  | [.crateQurery()]
+        configuration-------[.buildSessionFectory()]--->SessionFectory---[.openSession()]----Session---------->| Query   
+            |                                                                                                  |
+            |  configure()                                                                                     |                 
+            |                                                                                                  |  [.createCriteria()]   
+        DB Inforamtion                                                                                         Criteria     
+
+
+3 . SessionFectory and Session?
+A.
+    SessionFectory;
+                a. it bis the interface present in org.Hibernet pacaage 
+                b. thread safe and immutable
+                c.   
+                    Configuration cfg= new Configuration();
+                    SessionFactory factory=cfg.buildSessionFactory();
+    
+    Session:
+                a. it is interface present i n org.Hibernet package
+                b. lighweighted amd not thread safe
+                c. is is object whic is create based on the sessionFectory
+                d. use for the open the connection/session by hibernet f/w
+                e. and do CRUD opration in database
+                    Session session= fectory.buidSession();
+                    session.openSession();
+
+
+
+4. what is serverlet life cycle/
+A. Steps : below
+  a.  Servlet class is loaded.
+  b.  Servlet instance is created.
+  c.  init method is invoked.
+  d.  service method is invoked.
+  e.  destroy method is invoked.
+
+
+5. HashMap/Hashtable internals
+A. HashMap :
+       a. defalt size 16 bucket
+       b. if the hashmap has 16 bucked then if we need to add more then then the 16 lement
+            the we can store it in this case the load fector conssept is comming in this case 
+            if the buckaeg load the 75% the it will increate the size its double now the 16*2 -32.
+        c. bucket is nothing but linkedlist 
+        d. it will get the key (must be object) the it will get the hashCode of key by using hashCode method 
+        e. if the hash code calculation give the result the result know as index of hash map .
+        f. if the two keys hash code are same so index calulation will sam then jvm check the keys if both entryes keys are same
+            then it will replace the node other wise it will create new node in same index and pass the value in side it.
+        g. this same index or hashcode value foe both entrys konwn as "colusion".
+        h. to compare the keys it will internal use the equals method.
+        after java * enhancment :
+        =======================
+        i. as we show the dure to colustion our bucker side is increas the we it may be dexreat the performance in geting the data 
+            in this case in java 8 the new enhencment commin that knoe and balance try consept to store the data
+            in the neww feature id the dure to data colution our internal linked list incresed the again effect the traversing issue 
+            so in thi case this need freature comver hole linklist into the balance try consept so it will incress the preformace ,
+        j. defalt treefthresold value is 8 .
+        k. it the to get the data form hash map it will user the compateTo method to compare the bote in balandce tree.
+        l. thst try known as balance birary tree or red black try 
+        m. non-syncronsed , not thread safe.
+Hashtable:
+        a. syconysed and thred safe
+        b. store the the valuse in buckets and internal bucked datastatucture is linkedlist
+        c. internal user the hashing concept to get tghe iindex fo the element.
+        d. is thei is the same of hash map consept to get the index of element.
+------------------------------------------------------------------------------------------------------
+
+5. ServletConfig vs ServletContext ?
+A. this both are interface to use TO get the initial value iof the servlet application like password usernname ect.
+    ServletContext =>  elegibale foe all the application servlet whic are presnt the project one to many.
+    ServletConfig=> it is accesable for the only those servlt which is configured means one to one  
+
+8.	Spring AOP?
+A.  this are the ponts :
+    a. it is the methodtology which can help with we can creat cross cutting loggic implimentation in our project which diffrent from our busness logic
+    b . it is basicly in some of the consunce like logging , tracking , authorization , request and responce senitization etc
+    c.  we must use this whe we need to wich are rge sepetect from the bussness logic.
+    d. it will tell remove the all the crosscutting logic from the main bussnes logib ac put it intu the seprete place .
+    e. we need to user acpectJ dependency in our application 
+    f. there some method and Anotation whick  can help to us inplimented it .
+        @Before ("execute(retun  and the poin to start the eun))
+        @After ("execute(retun  and the poin to start the eun)) 
+        @AfterReturn()
+        @BeforeReturn()
+        @Acpect
+        @PointCut(Within(provide the class ))
+        JoinPoint jp 
+
+9.Collection & Collections
+A.  Collection:
+            a. it is the interface 
+            b. it is tyhe root interface of all collection interface and class 
+            c. it is use to store the group of data in it 
+            d. ex: list, set, map, arraylist etc
+    Collections:
+            a. it is the class 
+            b. it is the container of all the methods which can applyed on collection
+            c. it is the utility which can help to  do opration in collection object 
+            d. Ex: sort(), getFirst(), get(), put() etc.
+
+10. Why Equals and Hash code method in java ?
+A.  equals and hashCode both methods are presnt in java.lang.Object class , that means both method defination
+    present in Object class.
+    basicaly both are veray importent when we are storing data in in collection by using the hashing concept 
+    because HashMap , HashTable, HashSet internal using both of the methods.
+
+    equals():   this is the object class method wich is use to check the object is equal or not.
+                it will compare the memory address if both memory address same the this method will give the
+                 true 
+    
+    hashCode(): it is the object class method which is use to get the hash code of the object bested on the 
+                datastatucture.
+
+    Note: if you are working on the programming defined object and you enat to effecient opration with hashmap or
+    hashing cocept then we need to impliment the equals and hashcode both in ouer model calls so it will work easyly
+
+    Note: we can not brack the contract between the equals and hashcode method because if we brack the it will not 
+    work as accespect wen we arepution the  inside the hashmap.
+
+    Code:
+    ======
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Objects;
+        import java.util.stream.Collectors;
+
+        public class EqualsAndHashMap {
+
+            public static void main(String[] args) {
+
+                StudentClass s1 = new StudentClass(101,"Prasun","JAVA");
+                StudentClass s2 = new StudentClass(101,"Prasun","JAVA");
+
+                System.out.println("== : "+(s1==s2));
+                System.out.println("equals : "+(s1.equals(s2)));
+                System.out.println("HashCode of s1: "+ s1.hashCode());
+                System.out.println("HashCode of s2: "+ s2.hashCode());
+            }
+        }
+
+
+        class StudentClass{
+
+            private Integer rollNo;
+            private String sName;
+            private String sClass;
+
+            public StudentClass(Integer rollNo, String sName, String sClass) {
+                this.rollNo = rollNo;
+                this.sName = sName;
+                this.sClass = sClass;
+            }
+
+            public Integer getRollNo() {
+                return rollNo;
+            }
+
+            public void setRollNo(Integer rollNo) {
+                this.rollNo = rollNo;
+            }
+
+            public String getsName() {
+                return sName;
+            }
+
+            public void setsName(String sName) {
+                this.sName = sName;
+            }
+
+            public String getsClass() {
+                return sClass;
+            }
+
+            public void setsClass(String sClass) {
+                this.sClass = sClass;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                StudentClass that = (StudentClass) o;
+                return rollNo.equals(that.rollNo);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(rollNo);
+            }
+        }
+
+------------------------------------------------------------------------------------------------------------------------
+
+11. Second Highest Salary of the EMP table in java and SQL Query?
+A. Java 8 :
+        approch a:  String name= 
+                            workers.stream()
+                                    .sorted((o1, o2) -> o2.getSalary().compareTo(o1.getSalary()))
+                                    .skip(1).collect(Collectors.toList()).get(0).getName();
+                    
+        
+
+    SQL :
+        select name ,max(salary) as salary from worker where salary<( select max(salary) as salary from worker); 
+
+
+12. what is Thread Life cycle in java?
+A.  Thread:
+        Thred is the lighweighted process with can ex indeuslay form the main thread in java.
+        we cap perfor the multipal optation parallaly by using the multithreading concept .
+    Way to create thread in java :
+        a. Runnuble Interface
+        b. Thread class
+        c. Callable Interface with  Executors Service  
+      
+    
+    Thread Life Cycle:
+
+        1. New state        : initilize or born on new thread.
+        2. Runnable state   : ready to execution
+        3. Running state    : thread is running or in execution
+        4. Waitting state   : Thread is blocked for some time due to waiting reqources or other thread output.
+        5. Dead state       : thread is done its work and now it is going destroy or destroied or Exit.
+
+
+
+                                                                                    |------------[t.stop()]------|                                          
+                                                                                    |                            |   
+                                                                                    |                            |       
+                                                                                    |                            |   
+                  (1)                       (2)                                  (3)|                            |(8)      
+   [with new t] Born------[t.start()]--->Runnable-----[Thread Sheduler]------->Running------[execute run()]---->Dead (destroy thread)
+                                        (5) |                                 (6)   |                           (7)
+                                |------>----|                               |----<--|
+                                |                                           |
+                                |                                      [ t.wait()
+                      [t.resume()                                      t.sleep()
+                      incase of suspend()                              t.join()
+                      method  ]                                        t.suspend()]                               
+                         |                                                    |      
+                         |                                                    |  
+                         |                                                    |  
+                         |                                                    |  
+                         |-----------<-----<-----Block-----------<------<-----|                           
+                                                 (4)
+
+    
+    Java Code :
+            Runnable Interface :
+                                
+                            public class ThreadConceptwithRunnableInterface {
+                                public static void main(String[] args) {
+
+                                    /* by using runnable Interface with lemada expression */
+                                    Runnable runnableWithLemada = () -> {
+                                        System.out.println("Thread with Runnable with Lemada......");
+                                    };
+                                    Thread t1 = new Thread(runnableWithLemada);
+                                    t1.start();
+
+                                    MyRunnable runnableWithoutLemada= new MyRunnable();
+
+                                    Thread t2 = new Thread(runnableWithoutLemada);
+                                    t2.start();
+                                }
+                            }
+
+                            class MyRunnable implements Runnable {
+                                @Override
+                                public  void run(){
+                                    System.out.println("Thread with Runnable without Lemada......");
+
+                                }
+                            }
+
+
+            Thread Class :
+                                
+                           
+                        class MyThreadClass extends Thread {
+                            @Override
+                            public  void run(){
+                                System.out.println("Thread with Thread Class .....");
+
+                            }
+
+                        }
+
+                        public class ThreadConceptwithThreadClass {
+                            public static void main(String[] args) {
+
+                                Thread t= new MyThreadClass();
+                                t.start();
+                            }
+
+                        }
+
+
+            Callable Interface With Executors:
+
+                        
+                        public class ThreadConceptwithCallableAndExecutorServiceInterface {
+                            public static void main(String[] args) {
+
+                                List<Callable<String>> callableList= Arrays.asList(
+                                        new ThreadTask1(),
+                                        new ThreadTask2(),
+                                        new ThreadTask3()
+                                );
+                                ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+
+
+                                try {
+                                    List<Future<String>> futureList = threadPoolExecutor.invokeAll(callableList);
+                                    System.out.println(threadPoolExecutor.getPoolSize());
+                                    System.out.println(threadPoolExecutor.getThreadFactory());
+                                    System.out.println(threadPoolExecutor.getActiveCount());
+                                    System.out.println(threadPoolExecutor.getCorePoolSize());
+                                    System.out.println(threadPoolExecutor.getThreadFactory());
+                                    System.out.println(futureList);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                            }
+
+                        }
+
+                        class ThreadTask1 implements Callable<String> {
+
+
+                            @Override
+                            public String call() throws Exception {
+                                System.out.println("Thread task : 1");
+                                return "This is the call to Thread task : 1";
+                            }
+                        }
+
+                        class ThreadTask2 implements Callable<String> {
+
+
+                            @Override
+                            public String call() throws Exception {
+                                System.out.println("Thread task : 2");
+                                return "This is the call to Thread task : 2";
+                            }
+                        }
+
+                        class ThreadTask3 implements Callable<String> {
+
+
+                            @Override
+                            public String call() throws Exception {
+                                System.out.println("Thread task : 3");
+                                return "This is the call to Thread task : 4";
+                            }
+                        }
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+12. 14.	Difference between error and exception?
+A.  both are the child classes on the Throwable class 
+    exception: 
+                1. exception is the issue which can try to terminate ourt peogramm flow abnormaly if we have not nay hendleling code.
+                2. most od time exception is comming due to  some issue with programm or data .
+                3. it can be hendeled by using the ExceptionHandling cocept in java.
+                4. iwe can recover the exception in java code and use the another way  to get the resources or data.
+                5. Ex: FileNotFoundException, NullPointerException etc.
+
+    Error:
+                1. it is also the child class of the throwable class .
+                2. errors comes due to some hardware issue or viruses. lack of resources.
+                3. we can not handled in java code but we can prenvent this types issue to incresce the resources and security of system.
+                4. Ex : OutOfMemoryError etc.
+
+                                                    Throwable(C)
+
+                    Exception(C)                                                          Error(C)
+                    |-SQLException                                                          |-VirtualMachineError
+                    |-InterruptedException                                                      |-StackOverFlowError    
+                    |-IOException                                                               |-OutOfMemoryError
+                    |-ParseExcetion                                                         |-LinkageError
+                    |-RuntimeException                                                          |-NoClassDefFoundError
+                        |-ClassCastException                                                    |-InCompletibleClassChargeError
+                        |-ArithmeticException                                               |-AssretionError
+                        |-IlegalArgumentException
+                            |-NumberFormateException
+                        |IndexOutOfBoundException
+                            |-ArrayOutOfBoundException
+------------------------------------------------------------------------------------------------------------------------------
+
+13. What is the term thread safe?
