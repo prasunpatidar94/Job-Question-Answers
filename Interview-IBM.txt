@@ -1,0 +1,901 @@
+Multithreading
+By definition multitasking is when multiple processes share common processing resources such as a CPU. Multi threading extends the idea of multitasking into applications where you can subdivide specific operations within a single application into individual threads. Each of the threads can run in parallel. The OS divides processing time not only among different applications, but also among each thread within an application.
+-------------------------------------------------
+collection framework
+------------------------------
+Arraylist and linkedlist, where you will use each of them
+-----------------------------------------
+LinkedList and ArrayList are two different implementations of the List interface. LinkedList implements it with a doubly-linked list. ArrayList implements it with a dynamically re-sizing array.
+ArrayList - fast access, get method.
+Linked List - slow access, iterating is faster fwd & backward.
+--------------------------------------------
+how hashmap work internally
+difference between PUT & POST in webservices
+--------------------------------------------------
+PUT implies putting a resource - completely replacing whatever is available at the given URL with a different thing. By definition, a PUT is idempotent. Do it as many times as you like, and the result is the same. x=5 is idempotent. You can PUT a resource whether it previously exists, or not (eg, to Create, or to Update)!
+POST updates a resource, adds a subsidiary resource, or causes a change. A POST is not idempotent, in the way that x++ is not idempotent.
+-------------------------------------
+Singleton Design pattern
+MVC design pattern
+unix, change permission for file
+chmod - r -R
+threaddump in unix
+-----------------------------
+jps -l 70660 sun.tools.jps.Jps 70305 - list all processes running in the JVM.
+jstack <pid> >> threaddumps.log -- available since jdk 1.5
+sudo -u user jstack <pid> >> threaddumps.log
+jstackSeries.sh 1234 cq5serveruser 10 3
+sudo -u user kill -QUIT <pid> where "user" is the user that the Java process is running as. (for JDK.14 or less)
+jconsole.exe -pluginpath /path/to/file/tda.jar (jconsole to be installed for jdk 1.6)
+----------------------------------------------------------------
+how to allocate heapmemory & Specific Commands for heapDump?
+---------------------------------------------
+-Xms=3670K  -- starting size
+-Xmx=64M  -- Maximum size.
+jmap - Get the heap dump
+jhat - analyze the heap dump. 
+----------------------------------------
+what kind of garbagecollection you used
+---------------------------------------------
+System.gc();
+-------------------------------------
+how do you create index
+---------------------------------------
+Create index indexname ON table tablename columnname
+-----------------------
+asynchronous and synchronous call in webservices
+-------------------------------------------------------
+When you call synchronous web service the service processes the request and return HTTP status code 200 OK (1) if everything went as expected, or error 4xx. The call is blocked while processing and the request and can take significant time.
+When web service is asynchronous the main difference is that call should return instantly with HTTP 202 ACCEPTED (2) which means that request is taken in queue but not processed yet.
+(1) 200 OK http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1 
+(2) 202 ACCEPTED http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.3
+---------------------------------------
+String Class - Mutable???
+--------------------------------
+Java Developers decide Strings are immutable due to the following aspect design, efficiency, and security.
+Design Strings are created in a special memory area in java heap known as "String Intern pool". While you creating new String(Not in the case of using String() constructor or any other String functions which internally uses String() constructor for creating new String object; String() constructor always create new string constant in the pool unless we call the method intern()) variable it searches the pool to check whether is it already exist. If it is exist, then return reference of the existing String object. If the String is not immutable, changing the String with one reference will lead to the wrong value for the other references.
+-------------------------------------------
+have you used any caching mechanism?
+-------------------
+Yes
+-----------------------------------
+Memory leak and how can you avoid in particular application
+----------------------------------------------------------------
+A memory leak occurs when object references that are no longer needed are unnecessarily maintained. 
+if an application steadily increases its memory utilization while processing the same kind of data, you might have a memory leak.
+One of the quickest ways to assert that you indeed have a memory leak is to enable verbose garbage collection. Memory constraint problems can usually be identified by examining patterns in the verbosegc output.
+Analyze the Trace
+Visual VM
+Eclipse - errors/warnings for memory leaks.
+--------------------------------------------------
+how different types of garbage collection mechanism can be used in Java apart from default one
+--------------------------------
+-XX:+UseSerialGC    Serial Garbage Collector
+-XX:+UseParallelGC  Parallel Garbage Collector
+-XX:+UseConcMarkSweepGC CMS Garbage Collector
+-XX:ParallelCMSThreads= CMS Collector – number of threads to use
+-XX:+UseG1GC    G1 Gargbage Collector
+----------------------------------------
+Consuming webservice outside web domain. any issues
+- Share exciting stuff in your recent project (any challenges, interesting issues etc) and how did you overcome/resolved ?
+----------------------------------------
+- How to create class immutable ?
+-------------------------------------
+The class must be declared as a final class. final classes can not be extended.
+All fields in the class must be declared as private and final. final fields can not be changed once initiated.
+Do not define any methods that can change the state of the immutable object. Not only Setter methods but also any other methods which can change the state of the object.
+this reference must be used during constructing the immutable object. Don’t return the mutable references to the caller (Use defensive copy).
+There are number of immutable classes in java such as java.lang.String, java.lang.Integer, java.lang.Float and java.math.BigDecimal. Lets have a look at the benefit of immutable class.
+--------------------------
+- How to make a class fully immutable if one of the member/class level variable itself is another class ?
+------------------------
+If the instance fields include references to mutable objects, don't allow those objects to be changed:
+Don't provide methods that modify the mutable objects.
+Don't share references to the mutable objects. Never store references to external, mutable objects passed to the constructor; if necessary, create copies, and store references to the copies. Similarly, create copies of your internal mutable objects when necessary to avoid returning the originals in your methods.
+------------------
+- If a variable of type Set/Map/List is declared as Immutable using Final keyword ? can we add or remove elements from that
+Yes
+--------------------
+- Difference between set/list ?
+---------------------
+1) List is an ordered collection it maintains the insertion order, which means upon displaying the list content it will display the elements in the same order in which they got inserted into the list.
+Set is an unordered collection, it doesn’t maintain any order. There are few implementations of Set which maintains the order such as LinkedHashSet (It maintains the elements in insertion order).
+2) List allows duplicates while Set doesn’t allow duplicate elements. All the elements of a Set should be unique if you try to insert the duplicate element in Set it would replace the existing value.
+3) List implementations: ArrayList, LinkedList etc.
+Set implementations: HashSet, LinkedHashSet, TreeSet etc.
+4) List allows any number of null values. Set can have only a single null value at most.
+5) ListIterator can be used to traverse a List in both the directions(forward and backward) However it can not be used to traverse a Set. We can use Iterator (It works with List too) to traverse a Set.
+6) List interface has one legacy class called Vector whereas Set interface does not have any legacy class.
+-------------
+- final keyword and how it is used in various scenarios
+------------------
+If you make any variable as final, you cannot change the value of final variable(It will be constant).
+If you make any method as final, you cannot override it. - Compilation error if done.
+If you make any class as final, you cannot extend it.
+------------------
+- checked and unchecked exceptions
+-------------------------------------------
+In Java exceptions under Error and RuntimeException classes are unchecked exceptions, everything else under throwable is checked. Consider the following Java program. It compiles fine, but it throws ArithmeticException when run. The compiler allows it to compile, because ArithmeticException is an unchecked exception.
+-------------------------------------------
+- difference between String, StringBuffer, StringBuilder ?
+----------------------------
+-------------------------
+- Programming example - How to count occurrences of each char in a string ? basically looking some code snippet..
+--------------------------
+CountOccurences.java - 
+---------------------------
+- Order of loops/iterations etc ?
+-----------------
+--------------------
+- Java concurrency package/apis ?
+--------------------------
+- What is runtime complexity with HashMap/List ?
+--------------------------
+http://infotechgems.blogspot.in/2011/11/java-collections-performance-time.html
+-----------------------
+- Data Structures... low level questions on Maps, Lists, Sets etc
+--------------------
+-----------------------------
+- What is Concurrent HashMap ?
+---------------------------
+You should use ConcurrentHashMap when you need very high concurrency in your project.
+It is thread safe without synchronizing the whole map.
+Reads can happen very fast while write is done with a lock.
+There is no locking at the object level.
+The locking is at a much finer granularity at a hashmap bucket level.
+ConcurrentHashMap doesn’t throw a ConcurrentModificationException if one thread tries to modify it while another is iterating over it.
+ConcurrentHashMap uses multitude of locks.
+-----------------
+- Multithreading (scenario based questions)
+--------------------
+> A main thread if making 3 Service/API calls (spawning 3 threads) and then how to join the output from each of them (wait/notify type concepts)
+-------------------------
+Thread A tests a condition and discovers it must wait.
+Thread B sets the condition and calls notify() to inform A to resume execution. Because A is not yet waiting, nothing happens.
+Thread A waits, by calling wait().
+Because of the prior notify() call, A waits indefinitely.
+----------------------
+- Executor class
+- Difference between sleep and wait ?
+-------------------------
+Class  belongs :  The wait() method belongs to java.lang.Object class, thus can be called on any Object. The sleep() method belongs to java.lang.Thread class, thus can be called on Threads.
+Context :  The wait() method can only be called from Synchronized context i.e. using synchronized block or synchronized method. The sleep() method can be called from any context.
+Locking :  The wait() method releases the lock on an object and gives others chance to execute. The sleep() method does not releases the lock of an object for specified time or until interrupt.
+Wake up condition :  A waiting thread can be awake by notify() or notifyAll() method. A sleeping can be awaked by interrupt or time expires.
+Each object has each wait() method for inter-communication between threads. The sleep() method is static method belonging to Thread class. There is a common mistake to write t.sleep(1000) because sleep() is a class method and will pause the current running thread not t.
+----------------------------------
+- different thread states
+---------------------------
+New is the thread state for a thread which was created but has not yet started.
+A thread in the runnable state is executing from the JVM point of view but in fact it may be waiting for some resources from the operating system.
+Timed waiting is a thread state for a thread waiting with a specified waiting time. A thread is in the timed waiting state due to calling one of the following methods with a specified positive waiting time:
+Thread.sleep(sleeptime)
+A thread is in the waiting state due to the calling one of the following methods without timeout:
+Object.wait()
+Thread is in the blocked state while waiting for the monitor lock to enter a synchronized block or method or to reenter a synchronized block or method after calling Object.wait().
+After thread has completed execution of run() method, it is moved into terminated state.
+--------------------------
+- REST webservices, how to create
+--------------------------
+Everything in REST is considered as a resource.
+Every resource is identified by an URI.
+Uses uniform interfaces. Resources are handled using POST, GET, PUT, DELETE operations which are similar to Create, Read, update and Delete(CRUD) operations.
+Be stateless. Every request is an independent request. Each request from client to server must contain all the information necessary to understand the request.
+Communications are done via representations. E.g. XML, JSON
+--------------------------
+- java.util.concurrent.CountDownLatch
+- Spring Annotations (different types, how they are used),
+- Spring Autowiring....
+- Different parsers for JSON and XML
+-----------------------
+org.json
+JAXB
+------------
+- How to convert JSON (msg) to Java and vice-versa ?
+- Design patterns (some important ones like Singleton... ) - low level deep questions not just basic singleton, questions on why and where synchronized blocks while creating instance
+-----------------
+- Builder pattern
+- Volatile variables and where and how they are used with example
+------------
+A thread that access a volatile field, will first read its current value from the main memory, instead of using a potential cached value. A write operation to a volatile variable establishes a happens-before relationship with all subsequent reads of that volatile variable. Therefore, any change to a volatile variable is always visible to other threads.
+------------------
+- Stack and Heap Memory
+-----------------------------
+The basic difference between stack and heap is the life cycle of the values.
+Stack values only exist within the scope of the function they are created in. Once it returns, they are discarded.
+Heap values however exist on the heap. They are created at some point in time, and destructed at another (either by GC or manually, depending on the language/runtime).
+Java only stores primitives on the stack. This keeps the stack small and helps keeping individual stack frames small, thus allowing more nested calls.
+Objects are created on the heap, and only references (which in turn are primitives) are passed around on the stack.
+So if you create an object, it is put on the heap, with all the variables that belong to it, so that it can persist after the function call returns.
+- Various techniques of optimizing db queries
+-----------------------------------------
+Create Indexes
+Retrieve the Data You Really Need (selecting columns instead of select *)
+Avoid Functions on the Left Hand-Side of the Operator
+Consider Getting Rid of Correlated Subqueries
+Avoid Wildcard Characters at the Beginning of a LIKE Pattern
+- How you implement security in webservices.
+---------------------------------------
+With application server - Install the ceritificate on the server and use the https end point.
+Stand alone Java application - Create a pks12 file out of .cer using ikeyMan tool. Use System class to load the file and set the user name and password.
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+
+
+Interview Panel - David Dumines
+--------------------------------
+1. How to use Vert.x? -- Specific
+2. What is used of jBPM? Any expreience of it.
+3. How to create Async API?
+4. Any knowledge about CICD ? And how to create Pipeline flow?
+5. Any experience if Wrok Flow processing?
+6. Any experience in React JS.
+7. How to use angular in your project?
+8. End-2-End message processing for REST and Event Based.
+9. How to Test your application.
+10. As a Team Lead how to review your code. What key points your are checking?
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+Interview Panel - Ankush Arora
+--------------------------------
+• Is Java a Pass By Value or Reference?
+• What is serial version UID in serialization?
+• Externalization in Java?
+• Write SQL query to find lastlogin time for all the users?(Table contains Name,login time columns)
+• Write Java program to find longest substring(Ex Input-‘abcabcdabcde Output-5(longest substring abcde)
+• Write Java Program to find small missing Natural number in Array (Ex: Input[1,2,3,6,7] Output-4)
+• Spring Beans Scopes
+• How to create composite Keys in spring JPA entity
+• Spring Data JPA how to fetch the Data by specific field 
+• @EmbededId,@Embeddable annotation in JPA
+• Can we have Multiple Databases Configurations in Spring?
+• What is Thread Safe in Java ?How de we make sure a method is Thread Safe?
+----------------------------------------------------------------------------------------------------------------
+
+
+
+Multithreading
+collection framework
+Arraylist and linkedlist, where you will use each of them
+how hashmap work internally
+difference between PUT & POST in webservices
+Singleton Design pattern
+MVC design pattern
+unix, change permission for file
+threaddump in unix
+how to allocate heapmemory
+what kind of garbagecollection you used
+how do you create index
+asynchronous and synchronous call in webservices
+String Class - Mutable???
+Specific Commands for heapDump?
+have you used any caching mechanism?
+Memory leak and how can you avoid in particular application
+how different types of garbage collection mechanisn can be used in Java apart from default one
+Consuming webservice outside web domain. any issues
+how you secure the web service.
+volatile... can you tell me what exactly does, does it provide atomocity? does it help in atomic operations.
+sleep and thread methods in Thread, where to use..
+Difference between runnable and callable interface
+Memory leaks, how it happens..
+tools to analyze memory leak
+failfast and failsafe in collections framework
+create asnych web service.. what is the difference between async and sync web services.
+How you implement security in webservices.
+Different types of memory used in JVM? (Stack, Native)
+What types of classloader in JVM
+New features introduced in Java 8
+Does Java supports Multiple inheritence?
+Non static variables in static context?
+what are two methods to implement in Hashmap? hascode(), equals()
+Is singleton classlevel or JVM level.
+difference between classpath & path.
+SimpleDateformat usage
+try{}, catch {} finally {}, how not to enter finally block...System.exit(0);
+why webservices are invoked using http?
+How to create own exception, what is super class of all exceptions.
+what is WSDL, where it is used.
+what is differnce between XSD & XML?
+AJAX
+CSS & HTML
+how to show and hide using CSS
+WHAT IS JSON
+Input types in HTML
+Different types of DB worked
+Knowledge on NOSQL
+Databases that are based on mongo DB
+Multithreading
+collection framework
+Arraylist and linkedlist, where you will use each of them
+runnable interface
+can we modify arraylist while iterating
+new features in java 8
+Non static variables in static context?
+difference between classpath & path.
+How to create own exception, what is super class of all exceptions.
+what is DTD?
+ssl handshake exception 
+Why Java doesnt support multiple inheritance
+Which buildtool Jenkins uses internally? (MAVEN)
+What is difference between mvn clean install and deploy
+where is the settings for maven.
+what are build phases in maven.
+different types of repo in maven (Local/Remote/Central)
+what annotation required in spring for Autowire
+What is difference between classpath and path
+What is difference between ClassNotFoundException and NoMethodDefFoundException
+How do you load spring config file into application
+Spring Profiling?
+Web XML, load config file. Can we have only one Spring config? or more than one
+what is difference between EAR & WAR
+Knowldge on soap web services?
+what is DTD & use of DTD
+Difference between Set & List
+How to convert Array to List
+Any method to convert Array to List
+- E-commerce application - If you are asked to develop this web application, how to handle cache management
+- Threading/Multi threading
+- Java 5 ; Executor framework
+- Latest version of Java
+- Memory Model Change/Garbage Collection
+- Web application 1000 users will hit service, volume increases , what things we need to keep in mind to scale web application
+- Caching Methodology
+- Networking; how to put up IP address?
+- How to use threaddumps
+- What is memory leak, have you come across such scenario
+- Rest base service or soap based service and which one you will prefer
+- Docker
+- Array of Numbers, all numbers duplicate except one number
+1. Non static variable in static context.   
+2. Difference between path and class path. 
+3. How to create own exception . 
+4 . Different type of memory in JVM. 
+5. What is jQuery ? 
+6. Advantages of using jQuery. 
+7. How to secure Rest webservice. 
+8 . What is final , finally, finalize. 
+9 . How not to enter finally block. 
+10. Super class of exception. 
+11. What is spring IOC ? 
+12. What is dependency injection?
+
+
+----------------------------------------------------------------------------------------------------------------
+
+
+
+
+AMOL ARANKE
+Amol A Aranke
+Project Manager - Financial Services Sector
+This conversation is just between 
+@Amol A Aranke
+ and you. Check out their profile to learn more about them. View Profile
+
+
+Prasun Patidar
+  4:51 PM
+Hi ,
+4:51
+This is Prasun Patidar.
+
+
+AMOL ARANKE
+  4:51 PM
+Hi Prasun
+4:52
+Interview Answers.txt
+ 
+Multithreading
+By definition multitasking is when multiple processes share common processing resources such as a CPU. Multi threading extends the idea of multitasking into applications where you can subdivide specific operations within a single application into individual threads. Each of the threads can run in parallel. The OS divides processing time not only among different applications, but also among each thread within an application.
+-------------------------------------------------
+collection framework
+------------------------------
+Arraylist and linkedlist, where you will use each of them
+-----------------------------------------
+LinkedList and ArrayList are two different implementations of the List interface. LinkedList implements it with a doubly-linked list. ArrayList implements it with a dynamically re-sizing array.
+ArrayList - fast access, get method.
+Linked List - slow access, iterating is faster fwd & backward.
+--------------------------------------------
+how hashmap work internally
+difference between PUT & POST in webservices
+--------------------------------------------------
+PUT implies putting a resource - completely replacing whatever is available at the given URL with a different thing. By definition, a PUT is idempotent. Do it as many times as you like, and the result is the same. x=5 is idempotent. You can PUT a resource whether it previously exists, or not (eg, to Create, or to Update)!
+POST updates a resource, adds a subsidiary resource, or causes a change. A POST is not idempotent, in the way that x++ is not idempotent.
+-------------------------------------
+Singleton Design pattern
+MVC design pattern
+unix, change permission for file
+chmod - r -R
+threaddump in unix
+-----------------------------
+jps -l 70660 sun.tools.jps.Jps 70305 - list all processes running in the JVM.
+jstack <pid> >> threaddumps.log -- available since jdk 1.5
+sudo -u user jstack <pid> >> threaddumps.log
+jstackSeries.sh 1234 cq5serveruser 10 3
+sudo -u user kill -QUIT <pid> where "user" is the user that the Java process is running as. (for JDK.14 or less)
+jconsole.exe -pluginpath /path/to/file/tda.jar (jconsole to be installed for jdk 1.6)
+----------------------------------------------------------------
+how to allocate heapmemory & Specific Commands for heapDump?
+---------------------------------------------
+-Xms=3670K  -- starting size
+-Xmx=64M  -- Maximum size.
+jmap - Get the heap dump
+jhat - analyze the heap dump. 
+----------------------------------------
+what kind of garbagecollection you used
+---------------------------------------------
+System.gc();
+-------------------------------------
+how do you create index
+---------------------------------------
+Create index indexname ON table tablename columnname
+-----------------------
+asynchronous and synchronous call in webservices
+-------------------------------------------------------
+When you call synchronous web service the service processes the request and return HTTP status code 200 OK (1) if everything went as expected, or error 4xx. The call is blocked while processing and the request and can take significant time.
+When web service is asynchronous the main difference is that call should return instantly with HTTP 202 ACCEPTED (2) which means that request is taken in queue but not processed yet.
+(1) 200 OK http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1 
+(2) 202 ACCEPTED http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.3
+---------------------------------------
+String Class - Mutable???
+--------------------------------
+Java Developers decide Strings are immutable due to the following aspect design, efficiency, and security.
+Design Strings are created in a special memory area in java heap known as "String Intern pool". While you creating new String(Not in the case of using String() constructor or any other String functions which internally uses String() constructor for creating new String object; String() constructor always create new string constant in the pool unless we call the method intern()) variable it searches the pool to check whether is it already exist. If it is exist, then return reference of the existing String object. If the String is not immutable, changing the String with one reference will lead to the wrong value for the other references.
+-------------------------------------------
+have you used any caching mechanism?
+-------------------
+Yes
+-----------------------------------
+Memory leak and how can you avoid in particular application
+----------------------------------------------------------------
+A memory leak occurs when object references that are no longer needed are unnecessarily maintained. 
+if an application steadily increases its memory utilization while processing the same kind of data, you might have a memory leak.
+One of the quickest ways to assert that you indeed have a memory leak is to enable verbose garbage collection. Memory constraint problems can usually be identified by examining patterns in the verbosegc output.
+Analyze the Trace
+Visual VM
+Eclipse - errors/warnings for memory leaks.
+--------------------------------------------------
+how different types of garbage collection mechanism can be used in Java apart from default one
+--------------------------------
+-XX:+UseSerialGC    Serial Garbage Collector
+-XX:+UseParallelGC  Parallel Garbage Collector
+-XX:+UseConcMarkSweepGC CMS Garbage Collector
+-XX:ParallelCMSThreads= CMS Collector – number of threads to use
+-XX:+UseG1GC    G1 Gargbage Collector
+----------------------------------------
+Consuming webservice outside web domain. any issues
+- Share exciting stuff in your recent project (any challenges, interesting issues etc) and how did you overcome/resolved ?
+----------------------------------------
+- How to create class immutable ?
+-------------------------------------
+The class must be declared as a final class. final classes can not be extended.
+All fields in the class must be declared as private and final. final fields can not be changed once initiated.
+Do not define any methods that can change the state of the immutable object. Not only Setter methods but also any other methods which can change the state of the object.
+this reference must be used during constructing the immutable object. Don’t return the mutable references to the caller (Use defensive copy).
+There are number of immutable classes in java such as java.lang.String, java.lang.Integer, java.lang.Float and java.math.BigDecimal. Lets have a look at the benefit of immutable class.
+--------------------------
+- How to make a class fully immutable if one of the member/class level variable itself is another class ?
+------------------------
+If the instance fields include references to mutable objects, don't allow those objects to be changed:
+Don't provide methods that modify the mutable objects.
+Don't share references to the mutable objects. Never store references to external, mutable objects passed to the constructor; if necessary, create copies, and store references to the copies. Similarly, create copies of your internal mutable objects when necessary to avoid returning the originals in your methods.
+------------------
+- If a variable of type Set/Map/List is declared as Immutable using Final keyword ? can we add or remove elements from that
+Yes
+--------------------
+- Difference between set/list ?
+---------------------
+1) List is an ordered collection it maintains the insertion order, which means upon displaying the list content it will display the elements in the same order in which they got inserted into the list.
+Set is an unordered collection, it doesn’t maintain any order. There are few implementations of Set which maintains the order such as LinkedHashSet (It maintains the elements in insertion order).
+2) List allows duplicates while Set doesn’t allow duplicate elements. All the elements of a Set should be unique if you try to insert the duplicate element in Set it would replace the existing value.
+3) List implementations: ArrayList, LinkedList etc.
+Set implementations: HashSet, LinkedHashSet, TreeSet etc.
+4) List allows any number of null values. Set can have only a single null value at most.
+5) ListIterator can be used to traverse a List in both the directions(forward and backward) However it can not be used to traverse a Set. We can use Iterator (It works with List too) to traverse a Set.
+6) List interface has one legacy class called Vector whereas Set interface does not have any legacy class.
+-------------
+- final keyword and how it is used in various scenarios
+------------------
+If you make any variable as final, you cannot change the value of final variable(It will be constant).
+If you make any method as final, you cannot override it. - Compilation error if done.
+If you make any class as final, you cannot extend it.
+------------------
+- checked and unchecked exceptions
+-------------------------------------------
+In Java exceptions under Error and RuntimeException classes are unchecked exceptions, everything else under throwable is checked. Consider the following Java program. It compiles fine, but it throws ArithmeticException when run. The compiler allows it to compile, because ArithmeticException is an unchecked exception.
+-------------------------------------------
+- difference between String, StringBuffer, StringBuilder ?
+----------------------------
+-------------------------
+- Programming example - How to count occurrences of each char in a string ? basically looking some code snippet..
+--------------------------
+CountOccurences.java - 
+---------------------------
+- Order of loops/iterations etc ?
+-----------------
+--------------------
+- Java concurrency package/apis ?
+--------------------------
+- What is runtime complexity with HashMap/List ?
+--------------------------
+http://infotechgems.blogspot.in/2011/11/java-collections-performance-time.html
+-----------------------
+- Data Structures... low level questions on Maps, Lists, Sets etc
+--------------------
+-----------------------------
+- What is Concurrent HashMap ?
+---------------------------
+You should use ConcurrentHashMap when you need very high concurrency in your project.
+It is thread safe without synchronizing the whole map.
+Reads can happen very fast while write is done with a lock.
+There is no locking at the object level.
+The locking is at a much finer granularity at a hashmap bucket level.
+ConcurrentHashMap doesn’t throw a ConcurrentModificationException if one thread tries to modify it while another is iterating over it.
+ConcurrentHashMap uses multitude of locks.
+-----------------
+- Multithreading (scenario based questions)
+--------------------
+> A main thread if making 3 Service/API calls (spawning 3 threads) and then how to join the output from each of them (wait/notify type concepts)
+-------------------------
+Thread A tests a condition and discovers it must wait.
+Thread B sets the condition and calls notify() to inform A to resume execution. Because A is not yet waiting, nothing happens.
+Thread A waits, by calling wait().
+Because of the prior notify() call, A waits indefinitely.
+----------------------
+- Executor class
+- Difference between sleep and wait ?
+-------------------------
+Class  belongs :  The wait() method belongs to java.lang.Object class, thus can be called on any Object. The sleep() method belongs to java.lang.Thread class, thus can be called on Threads.
+Context :  The wait() method can only be called from Synchronized context i.e. using synchronized block or synchronized method. The sleep() method can be called from any context.
+Locking :  The wait() method releases the lock on an object and gives others chance to execute. The sleep() method does not releases the lock of an object for specified time or until interrupt.
+Wake up condition :  A waiting thread can be awake by notify() or notifyAll() method. A sleeping can be awaked by interrupt or time expires.
+Each object has each wait() method for inter-communication between threads. The sleep() method is static method belonging to Thread class. There is a common mistake to write t.sleep(1000) because sleep() is a class method and will pause the current running thread not t.
+----------------------------------
+- different thread states
+---------------------------
+New is the thread state for a thread which was created but has not yet started.
+A thread in the runnable state is executing from the JVM point of view but in fact it may be waiting for some resources from the operating system.
+Timed waiting is a thread state for a thread waiting with a specified waiting time. A thread is in the timed waiting state due to calling one of the following methods with a specified positive waiting time:
+Thread.sleep(sleeptime)
+A thread is in the waiting state due to the calling one of the following methods without timeout:
+Object.wait()
+Thread is in the blocked state while waiting for the monitor lock to enter a synchronized block or method or to reenter a synchronized block or method after calling Object.wait().
+After thread has completed execution of run() method, it is moved into terminated state.
+--------------------------
+- REST webservices, how to create
+--------------------------
+Everything in REST is considered as a resource.
+Every resource is identified by an URI.
+Uses uniform interfaces. Resources are handled using POST, GET, PUT, DELETE operations which are similar to Create, Read, update and Delete(CRUD) operations.
+Be stateless. Every request is an independent request. Each request from client to server must contain all the information necessary to understand the request.
+Communications are done via representations. E.g. XML, JSON
+--------------------------
+- java.util.concurrent.CountDownLatch
+- Spring Annotations (different types, how they are used),
+- Spring Autowiring....
+- Different parsers for JSON and XML
+-----------------------
+org.json
+JAXB
+------------
+- How to convert JSON (msg) to Java and vice-versa ?
+- Design patterns (some important ones like Singleton... ) - low level deep questions not just basic singleton, questions on why and where synchronized blocks while creating instance
+-----------------
+- Builder pattern
+- Volatile variables and where and how they are used with example
+------------
+A thread that access a volatile field, will first read its current value from the main memory, instead of using a potential cached value. A write operation to a volatile variable establishes a happens-before relationship with all subsequent reads of that volatile variable. Therefore, any change to a volatile variable is always visible to other threads.
+------------------
+- Stack and Heap Memory
+-----------------------------
+The basic difference between stack and heap is the life cycle of the values.
+Stack values only exist within the scope of the function they are created in. Once it returns, they are discarded.
+Heap values however exist on the heap. They are created at some point in time, and destructed at another (either by GC or manually, depending on the language/runtime).
+Java only stores primitives on the stack. This keeps the stack small and helps keeping individual stack frames small, thus allowing more nested calls.
+Objects are created on the heap, and only references (which in turn are primitives) are passed around on the stack.
+So if you create an object, it is put on the heap, with all the variables that belong to it, so that it can persist after the function call returns.
+- Various techniques of optimizing db queries
+-----------------------------------------
+Create Indexes
+Retrieve the Data You Really Need (selecting columns instead of select *)
+Avoid Functions on the Left Hand-Side of the Operator
+Consider Getting Rid of Correlated Subqueries
+Avoid Wildcard Characters at the Beginning of a LIKE Pattern
+- How you implement security in webservices.
+---------------------------------------
+With application server - Install the ceritificate on the server and use the https end point.
+Stand alone Java application - Create a pks12 file out of .cer using ikeyMan tool. Use System class to load the file and set the user name and password.
+Collapse
+
+
+
+4:52
+Interview Questionnaire - Abhishek Jee.txt
+ 
+Interview Panel - David Dumines
+--------------------------------
+1. How to use Vert.x? -- Specific
+2. What is used of jBPM? Any expreience of it.
+3. How to create Async API?
+4. Any knowledge about CICD ? And how to create Pipeline flow?
+5. Any experience if Wrok Flow processing?
+6. Any experience in React JS.
+7. How to use angular in your project?
+8. End-2-End message processing for REST and Event Based.
+9. How to Test your application.
+10. As a Team Lead how to review your code. What key points your are checking?
+Collapse
+
+
+
+4:52
+Interview Questionnaire - Chandan.txt
+ 
+Interview Panel - Ankush Arora
+--------------------------------
+• Is Java a Pass By Value or Reference?
+• What is serial version UID in serialization?
+• Externalization in Java?
+• Write SQL query to find lastlogin time for all the users?(Table contains Name,login time columns)
+• Write Java program to find longest substring(Ex Input-‘abcabcdabcde Output-5(longest substring abcde)
+• Write Java Program to find small missing Natural number in Array (Ex: Input[1,2,3,6,7] Output-4)
+• Spring Beans Scopes
+• How to create composite Keys in spring JPA entity
+• Spring Data JPA how to fetch the Data by specific field 
+• @EmbededId,@Embeddable annotation in JPA
+• Can we have Multiple Databases Configurations in Spring?
+• What is Thread Safe in Java ?How de we make sure a method is Thread Safe?
+Collapse
+
+
+
+4:52
+Interview questions.txt
+ 
+Multithreading
+collection framework
+Arraylist and linkedlist, where you will use each of them
+how hashmap work internally
+difference between PUT & POST in webservices
+Singleton Design pattern
+MVC design pattern
+unix, change permission for file
+threaddump in unix
+how to allocate heapmemory
+what kind of garbagecollection you used
+how do you create index
+asynchronous and synchronous call in webservices
+String Class - Mutable???
+Specific Commands for heapDump?
+have you used any caching mechanism?
+Memory leak and how can you avoid in particular application
+how different types of garbage collection mechanisn can be used in Java apart from default one
+Consuming webservice outside web domain. any issues
+how you secure the web service.
+volatile... can you tell me what exactly does, does it provide atomocity? does it help in atomic operations.
+sleep and thread methods in Thread, where to use..
+Difference between runnable and callable interface
+Memory leaks, how it happens..
+tools to analyze memory leak
+failfast and failsafe in collections framework
+create asnych web service.. what is the difference between async and sync web services.
+How you implement security in webservices.
+Different types of memory used in JVM? (Stack, Native)
+What types of classloader in JVM
+New features introduced in Java 8
+Does Java supports Multiple inheritence?
+Non static variables in static context?
+what are two methods to implement in Hashmap? hascode(), equals()
+Is singleton classlevel or JVM level.
+difference between classpath & path.
+SimpleDateformat usage
+try{}, catch {} finally {}, how not to enter finally block...System.exit(0);
+why webservices are invoked using http?
+How to create own exception, what is super class of all exceptions.
+what is WSDL, where it is used.
+what is differnce between XSD & XML?
+AJAX
+CSS & HTML
+how to show and hide using CSS
+WHAT IS JSON
+Input types in HTML
+Different types of DB worked
+Knowledge on NOSQL
+Databases that are based on mongo DB
+Multithreading
+collection framework
+Arraylist and linkedlist, where you will use each of them
+runnable interface
+can we modify arraylist while iterating
+new features in java 8
+Non static variables in static context?
+difference between classpath & path.
+How to create own exception, what is super class of all exceptions.
+what is DTD?
+ssl handshake exception 
+Why Java doesnt support multiple inheritance
+Which buildtool Jenkins uses internally? (MAVEN)
+What is difference between mvn clean install and deploy
+where is the settings for maven.
+what are build phases in maven.
+different types of repo in maven (Local/Remote/Central)
+what annotation required in spring for Autowire
+What is difference between classpath and path
+What is difference between ClassNotFoundException and NoMethodDefFoundException
+How do you load spring config file into application
+Spring Profiling?
+Web XML, load config file. Can we have only one Spring config? or more than one
+what is difference between EAR & WAR
+Knowldge on soap web services?
+what is DTD & use of DTD
+Difference between Set & List
+How to convert Array to List
+Any method to convert Array to List
+- E-commerce application - If you are asked to develop this web application, how to handle cache management
+- Threading/Multi threading
+- Java 5 ; Executor framework
+- Latest version of Java
+- Memory Model Change/Garbage Collection
+- Web application 1000 users will hit service, volume increases , what things we need to keep in mind to scale web application
+- Caching Methodology
+- Networking; how to put up IP address?
+- How to use threaddumps
+- What is memory leak, have you come across such scenario
+- Rest base service or soap based service and which one you will prefer
+- Docker
+- Array of Numbers, all numbers duplicate except one number
+1. Non static variable in static context.   
+2. Difference between path and class path. 
+3. How to create own exception . 
+4 . Different type of memory in JVM. 
+5. What is jQuery ? 
+6. Advantages of using jQuery. 
+7. How to secure Rest webservice. 
+8 . What is final , finally, finalize. 
+9 . How not to enter finally block. 
+10. Super class of exception. 
+11. What is spring IOC ? 
+12. What is dependency injection?
+Collapse
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+4:52
+interview question logical.txt
+ 
+Input 1 - Integer; Any Digit number
+Input 2 - Integer; Between 0-9
+Logic:
+Place Input 2 in Input 1 at all posibile places. Combination obtained by placing Input 2 in Input 1, find out maximum value out of the combination
+Example:
+Input 1 - 746
+Input 2 - 5
+Combination - 5746, 7546, 7456, 7465
+Maximum - 7546 <== return this value as Output
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+[Java]
+==========
+​
+- Difference between Restful and Soap services.
+- Singleton pattern and how to make it thread safe
+- Abstract factory pattern with example
+- Design Abstract pattern with a given example
+- Springboot and Spring framework difference
+- Cloneable and runnable difference
+- Lifecycle of thread
+- Coding exercise of Abstract factory pattern
+- AbstractDesignPattren Example
+- MultiThreading in Realtime experience
+- Name some design patterns which you worked in your project.
+- Explain singleton and how to make it thread safe. Write pseudocode.
+- Explain Lifecycle of Thread.
+- Why we need Multithreading? Why is it helpful?
+- Write pseudocode for producer and consumer problem. Generation and consumption of message should be sequential.
+	- They asked for explaination as well.
+- Write pseudocode to convert numeric to roman letter.
+	- They asked to explain.
+	- Provided inputs and asked how code will run at each step.
+- Design interfaces and classes for abstract factory design pattern:
+    car class
+    2 door -> coupe 
+    4 door -> sedan
+	6 door -> limousine 
+- Explain executor framework.
+​
+- Writing a Java blocking queue example. 
+	- One Producer class add to the queue message.
+	- Producer class create messages and put it in the queue
+	- Consumer class process messages in the queue by printing it
+	
+class Producer implements Runnable {
+	LinkedList<String> msgList;
+	Producer(LinkedList<String> msgList){
+		this.msgList=msgList;
+	}
+	void run(){
+		for(int i = 0;i<10;i++){
+			String msg = "Messsage".concat(String.valueOf(i));
+			syncronized(this){
+				msgList.push(message);
+			}
+		}
+	}
+}
+​
+class Consumer implements Runnable {
+	LinkedList<String> msgList;
+	
+	Consumer(LinkedList<String> msgList){
+		this.msgList = msgList;
+	}
+	void run(){
+			syncronized(this){
+				String msg = (String)msgList.pop();
+			}
+	}
+}
+​
+class Main{
+	volatile LinkedList<String> msgList;
+	
+	public static void main(String[] args){
+		Main m = new Main();
+		Producer p = new Producer(m.msgList);
+		Consumer c = new Producer(m.msgList);
+		Thread procucerThread = new Thread(p,"Producer-Thread");
+		Thread consumerThread = new Thread(c,"Consumer-Thread");
+		procucerThread.start();
+		consumerThread.start();
+		
+		procucerThread.join();
+		consumerThread.join();
+		
+	}
+}
+​
+- Volatile variables and where and how they are used with example
+- Why asynchronous on top of synchronous call in webservices
+- Lifecycle of thread
+- Why you used linked list in your code instead of BlockingQueue?
+- Springboot and Spring framework difference
+- Cloneable and runnable difference
+- How did you use multithread in your application?
+- Write Java code for converting  numeric to roman letter
+- Write java code for Producer, Consumer scenario using wait and notify functionality.
+​
+​
+[Database]
+==========
+​
+Table <Employee>:	employee_id, employee_name, department_id, tenure
+Table <Salary>:		employee_id, salary, position
+Table <Department>:	department_id, department_name
+​
+A.    Get average salary per position
+	 
+	  select avg(salary) as avg_sal, position from Salary group by position
+	
+B.    Select all department_name, employment_name  and position
+	 
+	  select emp.employment_name as empName,dept.department_name as deptName,sal.position as empPosition from Employee emp
+	  inner join Salary sal on sal.employee_id = emp.employee_id
+	  inner join Department on dept on dept.department_id = emp.department_id
+	 
+		
+C.    Get all employee_name that has salary higher than 5000
+	  select emp.employment_name as empName from Employee emp
+	  where (select sal.salary from Salary sal inner join emp on sal.employee_id = emp.employee_id) as salvalue > 5000
